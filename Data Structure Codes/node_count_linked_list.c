@@ -71,8 +71,6 @@ int main()
     ans = getche();
     if (ans == 'y')
     {
-        node *start;
-        start = NULL;
         start = create_node();
 
         count(start);
