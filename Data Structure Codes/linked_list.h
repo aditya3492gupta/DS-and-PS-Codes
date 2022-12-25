@@ -125,5 +125,21 @@ void k_node_last(node *start, int ele)
     temp = start;
     for (i = 1; i < count - ele + 1; i++)
         temp = temp->link;
-    printf("%d", temp->data);
+    printf("The %dth node from last is %d", ele, temp->data);
+}
+void swap(int *a, int *b)
+{
+    int t;
+    t = *a;
+    *a = *b;
+    *b = t;
+}
+void pair_swap(node *start)
+{
+    node *temp = start;
+    while (temp != NULL && temp->link != NULL)
+    {
+        swap(&temp->data, &temp->link->data);
+        temp = temp->link->link;
+    }
 }
