@@ -111,15 +111,22 @@ node *binary_search(node *start, int ele)
     } while (last == NULL || last != start);
     return NULL;
 }
-void k_node_last(node *start, int ele)
+int count_node(node *start)
 {
+    int num = 0;
     node *temp = start;
-    int count = 0, i;
     while (temp != NULL)
     {
         temp = temp->link;
-        count++;
+        num++;
     }
+    return num;
+}
+void k_node_last(node *start, int ele)
+{
+    node *temp = start;
+    int count = count_node(start), i;
+
     if (count < ele)
         printf("Enter valid value");
     temp = start;
@@ -142,4 +149,18 @@ void pair_swap(node *start)
         swap(&temp->data, &temp->link->data);
         temp = temp->link->link;
     }
+}
+int palindrome(node *start, node *rev)
+{
+    node *temp = start;
+    node *temp1 = rev;
+    int count = 0;
+    while (temp != NULL)
+    {
+        if (temp->data == temp1->data)
+            count++;
+        temp = temp->link;
+        temp1 = temp1->link;
+    }
+    return count;
 }
