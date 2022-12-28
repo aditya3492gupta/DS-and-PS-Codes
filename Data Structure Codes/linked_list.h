@@ -53,6 +53,152 @@ void display(node *start)
     }
     printf("Null\n");
 }
+node *insert_front(node *start)
+{
+    node *New;
+    int element;
+    printf("Enter the element\n");
+    scanf("%d", &element);
+    New = (node *)malloc(sizeof(node));
+    if (New == NULL)
+    {
+        printf("\nOverflow");
+        exit(0);
+    }
+    New->data = element;
+    New->link = start;
+    start = New;
+    return (start);
+}
+node *delete_front(node *start)
+{
+    node *temp;
+    if (start == NULL)
+    {
+        printf("Underflow");
+        exit(0);
+    }
+    temp = start;
+    start = temp->link;
+    free(temp);
+    return (start);
+}
+node *insert_end(node *start)
+{
+    node *New, *temp;
+    int element;
+    printf("\nEnter the element\n");
+    scanf("%d", &element);
+    temp = start;
+    New = (node *)malloc(sizeof(node));
+    if (New == NULL)
+    {
+        printf("\nOverflow");
+        exit(0);
+    }
+    while (temp->link != NULL)
+    {
+        temp = temp->link;
+    }
+    New->data = element;
+    temp->link = New;
+    New->link = NULL;
+    return (start);
+}
+node *delete_end(node *start)
+{
+    node *temp, *ptr;
+    if (start == NULL)
+    {
+        printf("Underflow");
+        exit(0);
+    }
+    ptr = start;
+    while (ptr->link != NULL)
+    {
+        temp = ptr;
+        ptr = ptr->link;
+    }
+    temp->link = NULL;
+    free(ptr);
+    return (start);
+}
+node *insert_end(node *start)
+{
+    node *New, *temp;
+    int element;
+    printf("\nEnter the element\n");
+    scanf("%d", &element);
+    temp = start;
+    New = (node *)malloc(sizeof(node));
+    if (New == NULL)
+    {
+        printf("\nOverflow");
+        exit(0);
+    }
+    while (temp->link != NULL)
+    {
+        temp = temp->link;
+    }
+    New->data = element;
+    temp->link = New;
+    New->link = NULL;
+    return (start);
+}
+node *delete_key(node *start)
+{
+    node *temp, *ptr;
+    int key;
+    if (start == NULL)
+    {
+        printf("Underflow");
+        exit(0);
+    }
+    ptr = start;
+    printf("\nEnter the key value you want to delete");
+    display(start);
+    scanf("%d", &key);
+    temp = ptr;
+    while (ptr->data != key)
+    {
+        temp = ptr;
+        ptr = ptr->link;
+    }
+    if (start->data == key)
+        start = ptr->link;
+    else
+        temp->link = ptr->link;
+    free(ptr);
+    return (start);
+}
+node *insert_key(node *start)
+{
+    node *New, *temp;
+    int element, key;
+    printf("\nEnter the value before which you want to insert\n");
+    display(start);
+    scanf("%d", &key);
+    printf("\n enter the element\n");
+    scanf("%d", &element);
+    temp = start;
+    New = (node *)malloc(sizeof(node));
+    if (New == NULL)
+    {
+        printf("\nOverflow");
+        exit(0);
+    }
+    while (temp != NULL && temp->data != key)
+    {
+        temp = temp->link;
+    }
+    if (temp == NULL)
+        printf("\nKey value not present in linked list");
+    else
+        New->data = element;
+    New->link = temp->link;
+    temp->link = New;
+    return (start);
+}
 node *reverse(node *start)
 {
     node *prev = NULL, *current = start, *next = NULL;

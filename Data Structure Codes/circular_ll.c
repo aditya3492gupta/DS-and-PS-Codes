@@ -1,86 +1,79 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <conio.h>
-typedef struct NODE
+typedef struct Node
 {
     int data;
-    struct NODE *link;
-} node;
-node *getnode()
+    struct Node *link;
+} cir_node;
+cir_node *getnode()
 {
-    node *n1;
-    n1 = (node *)malloc(sizeof(node));
+    cir_node *n1;
+    n1 = (cir_node *)malloc(sizeof(cir_node));
     n1->link = NULL;
     return n1;
 }
-void display(node *start)
+cir_node *create(int n)
 {
-    node *temp;
+    cir_node *start, *temp;
+    cir_node *new;
+    new = getnode();
+    start = new;
     temp = start;
-    printf("\n");
+    int i, ele;
+    for (i = 1; i <= n; i++)
+    {
+        printf("Enter the number\n");
+        scanf("%d", &ele);
+        if (new == NULL)
+        {
+            printf("Overflow\n");
+            exit(0);
+        }
+        else
+        {
+            temp->link = new;
+            new->data = ele;
+            temp = new;
+            new->link = start;
+        }
+        new = getnode();
+    }
+    return start;
+}
+void display(cir_node *start)
+{
+    cir_node *temp;
+    temp = start;
     if (temp == NULL)
         printf("The list is empty \n");
-    while (temp != NULL)
+    do
     {
         printf("%d->", temp->data);
         temp = temp->link;
-    }
-    printf("Null\n");
+    } while (temp != start);
+    printf("Head\n");
 }
-node *create()
+cir_node *insert_front(cir_node *start)
 {
-    node *NEW1, *temp, *NEW, *start;
-    int element;
-    char ans = 'y';
-    printf("Enter the element\n");
-    scanf("%d", &element);
-    NEW = getnode();
-    start = NEW;
-    temp = start;
-    NEW->data = element;
-    NEW->link = NULL;
-    printf("Do you want to enter more elements:y or n\n");
-    ans = getche();
-    while (ans == 'y')
-    {
-        printf("\nEnter the element\n");
-        scanf("%d", &element);
-        NEW1 = getnode();
-        if (NEW1 == NULL)
-            printf("\nOverflow");
-        else
-        {
-            temp->link = NEW1;
-            NEW1->data = element;
-            temp = NEW1;
-            NEW1->link = NULL;
-        }
-        printf("Do you want to enter more elements:y or n\n");
-        ans = getche();
-    }
-    getch();
-    return start;
-}
-node *insert_front(node *start)
-{
-    node *New;
+    cir_node *new;
     int element;
     printf("Enter the element\n");
     scanf("%d", &element);
-    New = (node *)malloc(sizeof(node));
-    if (New == NULL)
-    {
-        printf("\nOverflow");
-        exit(0);
-    }
-    New->data = element;
-    New->link = start;
-    start = New;
+    new = getnode();
+    new->data = element;
+    cir_node *p = start->link;
+    while (p->link != start)
+        p = p->link;
+    // at this point p is pointing at last node
+    p->link = new;
+    new->link = start;
+    start = new;
     return (start);
 }
-node *delete_front(node *start)
+cir_node *delete_front(cir_node *start)
 {
-    node *temp;
+    cir_node *temp;
     if (start == NULL)
     {
         printf("Underflow");
@@ -88,52 +81,86 @@ node *delete_front(node *start)
     }
     temp = start;
     start = temp->link;
+    cir_node *p = start->link;
+    do
+        p = p->link;
+    while (p->link != temp);
+
+    p->link = start;
     free(temp);
     return (start);
 }
-node *delete_end(node *start)
+cir_node *insert_end(cir_node *start)
 {
-    node *temp, *ptr;
+    cir_node *New, *temp;
+    int element;
+    printf("\nEnter the element\n");
+    scanf("%d", &element);
+    temp = start;
+    New = (cir_node *)malloc(sizeof(cir_node));
+    if (New == NULL)
+    {
+        printf("\nOverflow");
+        exit(0);
+    }
+    while (temp->link != start)
+        temp = temp->link;
+    New->data = element;
+    temp->link = New;
+    New->link = start;
+    return (start);
+}
+cir_node *delete_end(cir_node *start)
+{
+    cir_node *temp, *ptr;
     if (start == NULL)
     {
         printf("Underflow");
         exit(0);
     }
     ptr = start;
-    while (ptr->link != NULL)
+    while (ptr->link != start)
     {
         temp = ptr;
         ptr = ptr->link;
     }
-    temp->link = NULL;
+    temp->link = start;
     free(ptr);
     return (start);
 }
-node *insert_end(node *start)
+
+cir_node *insert_key(cir_node *start)
 {
-    node *New, *temp;
-    int element;
-    printf("\nEnter the element\n");
+    cir_node *New, *temp;
+    int element, key;
+
+    display(start);
+    printf("\nEnter the value before which you want to insert\n");
+    scanf("%d", &key);
+    printf("\n enter the element\n");
     scanf("%d", &element);
     temp = start;
-    New = (node *)malloc(sizeof(node));
+    New = (cir_node *)malloc(sizeof(cir_node));
     if (New == NULL)
     {
         printf("\nOverflow");
         exit(0);
     }
-    while (temp->link != NULL)
+    while (temp != start && temp->data != key)
     {
         temp = temp->link;
     }
-    New->data = element;
+    if (temp == NULL)
+        printf("\nKey value not present in linked list");
+    else
+        New->data = element;
+    New->link = temp->link;
     temp->link = New;
-    New->link = NULL;
     return (start);
 }
-node *delete_key(node *start)
+cir_node *delete_key(cir_node *start)
 {
-    node *temp, *ptr;
+    cir_node *temp, *ptr;
     int key;
     if (start == NULL)
     {
@@ -141,7 +168,7 @@ node *delete_key(node *start)
         exit(0);
     }
     ptr = start;
-    printf("\nEnter the key value you want to delete");
+    printf("Enter the key value you want to delete\n");
     display(start);
     scanf("%d", &key);
     temp = ptr;
@@ -157,40 +184,12 @@ node *delete_key(node *start)
     free(ptr);
     return (start);
 }
-node *insert_key(node *start)
-{
-    node *New, *temp;
-    int element, key;
-    printf("\nEnter the value before which you want to insert\n");
-    display(start);
-    scanf("%d", &key);
-    printf("\n enter the element\n");
-    scanf("%d", &element);
-    temp = start;
-    New = (node *)malloc(sizeof(node));
-    if (New == NULL)
-    {
-        printf("\nOverflow");
-        exit(0);
-    }
-    while (temp != NULL && temp->data != key)
-    {
-        temp = temp->link;
-    }
-    if (temp == NULL)
-        printf("\nKey value not present in linked list");
-    else
-        New->data = element;
-    New->link = temp->link;
-    temp->link = New;
-    return (start);
-}
 int main()
 {
-    node *start;
+    cir_node *start;
     start = NULL;
     char ch;
-    int n;
+    int n, i;
     do
     {
         printf("\nEnter 1 to Create\n2 to Enter at Front\n3 to Delete from Front\n4 to Display");
@@ -199,7 +198,9 @@ int main()
         switch (n)
         {
         case 1:
-            start = create();
+            printf("Enter number of nodes\n");
+            scanf("%d", &i);
+            start = create(i);
             display(start);
             break;
         case 2:
@@ -230,7 +231,7 @@ int main()
             display(start);
             break;
         default:
-            printf("Invalid Choice");
+            printf("Invalid Choice\n");
         }
         printf("Enter y to continue or else n to discontinue\n");
         ch = getche();
