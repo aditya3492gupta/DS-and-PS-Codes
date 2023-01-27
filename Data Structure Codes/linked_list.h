@@ -105,6 +105,22 @@ node *insert_end(node *start)
     New->link = NULL;
     return (start);
 }
+node *insert_end_num(node *start, int n)
+{
+    node *p = getnode();
+    p->data = n;
+    p->link = NULL;
+    if (start == NULL)
+        start = p;
+    else
+    {
+        node *q = start;
+        while (q->link != NULL)
+            q = q->link;
+        q->link = p;
+    }
+    return start;
+}
 node *delete_end(node *start)
 {
     node *temp, *ptr;
@@ -123,28 +139,28 @@ node *delete_end(node *start)
     free(ptr);
     return (start);
 }
-node *insert_end(node *start)
-{
-    node *New, *temp;
-    int element;
-    printf("\nEnter the element\n");
-    scanf("%d", &element);
-    temp = start;
-    New = (node *)malloc(sizeof(node));
-    if (New == NULL)
-    {
-        printf("\nOverflow");
-        exit(0);
-    }
-    while (temp->link != NULL)
-    {
-        temp = temp->link;
-    }
-    New->data = element;
-    temp->link = New;
-    New->link = NULL;
-    return (start);
-}
+// node *insert_end(node *start)
+// {
+//     node *New, *temp;
+//     int element;
+//     printf("\nEnter the element\n");
+//     scanf("%d", &element);
+//     temp = start;
+//     New = (node *)malloc(sizeof(node));
+//     if (New == NULL)
+//     {
+//         printf("\nOverflow");
+//         exit(0);
+//     }
+//     while (temp->link != NULL)
+//     {
+//         temp = temp->link;
+//     }
+//     New->data = element;
+//     temp->link = New;
+//     New->link = NULL;
+//     return (start);
+// }
 node *delete_key(node *start)
 {
     node *temp, *ptr;
