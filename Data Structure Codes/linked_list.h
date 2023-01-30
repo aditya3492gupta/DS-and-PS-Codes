@@ -139,28 +139,7 @@ node *delete_end(node *start)
     free(ptr);
     return (start);
 }
-// node *insert_end(node *start)
-// {
-//     node *New, *temp;
-//     int element;
-//     printf("\nEnter the element\n");
-//     scanf("%d", &element);
-//     temp = start;
-//     New = (node *)malloc(sizeof(node));
-//     if (New == NULL)
-//     {
-//         printf("\nOverflow");
-//         exit(0);
-//     }
-//     while (temp->link != NULL)
-//     {
-//         temp = temp->link;
-//     }
-//     New->data = element;
-//     temp->link = New;
-//     New->link = NULL;
-//     return (start);
-// }
+
 node *delete_key(node *start)
 {
     node *temp, *ptr;
@@ -171,9 +150,30 @@ node *delete_key(node *start)
         exit(0);
     }
     ptr = start;
-    printf("\nEnter the key value you want to delete");
-    display(start);
+    printf("\nEnter the key value you want to delete\n");
     scanf("%d", &key);
+    temp = ptr;
+    while (ptr->data != key)
+    {
+        temp = ptr;
+        ptr = ptr->link;
+    }
+    if (start->data == key)
+        start = ptr->link;
+    else
+        temp->link = ptr->link;
+    free(ptr);
+    return (start);
+}
+node *delete_key_num(node *start, int key)
+{
+    node *temp, *ptr;
+    if (start == NULL)
+    {
+        printf("Underflow");
+        exit(0);
+    }
+    ptr = start;
     temp = ptr;
     while (ptr->data != key)
     {
