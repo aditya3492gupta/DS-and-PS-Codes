@@ -14,19 +14,6 @@ poly_node *getnode()
     n1->link = NULL;
     return n1;
 }
-void display(poly_node *start)
-{
-    poly_node *temp;
-    temp = start;
-    if (temp == NULL)
-        printf("The list is empty \n");
-    while (temp != NULL)
-    {
-        printf("%dx^%d->", temp->coeff, temp->power);
-        temp = temp->link;
-    }
-    printf("Null\n");
-}
 poly_node *create(int n)
 {
     poly_node *start, *new, *temp;
@@ -54,4 +41,34 @@ poly_node *create(int n)
         new = getnode();
     }
     return start;
+}
+poly_node *insert_end(poly_node *start, int co, int exp)
+{
+    poly_node *p = getnode();
+    p->coeff = co;
+    p->power = exp;
+    p->link = NULL;
+    if (start == NULL)
+        start = p;
+    else
+    {
+        poly_node *q = start;
+        while (q->link != NULL)
+            q = q->link;
+        q->link = p;
+    }
+    return start;
+}
+void display(poly_node *start)
+{
+    poly_node *temp;
+    temp = start;
+    if (temp == NULL)
+        printf("The list is empty \n");
+    while (temp != NULL)
+    {
+        printf("%dx^%d->", temp->coeff, temp->power);
+        temp = temp->link;
+    }
+    printf("Null\n");
 }

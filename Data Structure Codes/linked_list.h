@@ -97,9 +97,7 @@ node *insert_end(node *start)
         exit(0);
     }
     while (temp->link != NULL)
-    {
         temp = temp->link;
-    }
     New->data = element;
     temp->link = New;
     New->link = NULL;
